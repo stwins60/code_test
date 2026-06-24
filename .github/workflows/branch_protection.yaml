@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - '*'
-  pull_request:
-    branches:
-      - 'prod'
-      - 'qa'
-  
 
 jobs:
   branch_protection:
@@ -17,11 +12,11 @@ jobs:
       - name: Check branch name
 
         run: |
-          if [[ $GITHUB_EVENT_NAME == "push" || $GITHUB_EVENT_NAME == "pull_request" ]]; then
+          if [[ $GITHUB_EVENT_NAME == "push" ]]; then
             BRANCH_NAME=$(echo $GITHUB_REF | sed 's#.*/##')
             if [[ $BRANCH_NAME == "dev" || $BRANCH_NAME == "qa" || $BRANCH_NAME == "prod" ]]; then
-              echo "$GITHUB_EVENT_NAME denied. You are not allowed to perform $GITHUB_EVENT_NAME to $BRANCH_NAME branch"
+              echo "Push request denied. You are not allowed to push to $BRANCH_NAME branch"
               exit 1
             fi
-            echo "$GITHUB_EVENT_NAME allowed. You can perform $GITHUB_EVENT_NAME to $BRANCH_NAME branch"
+            echo "Push allowed. You can push to $BRANCH_NAME branch"
           fi
