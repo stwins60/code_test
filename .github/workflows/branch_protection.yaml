@@ -17,7 +17,7 @@ jobs:
       - name: Check branch name
 
         run: |
-          if [[ $GITHUB_EVENT_NAME == "push" || $GITHUB_EVENT_NAME == "pull_request"]]; then
+          if [[ $GITHUB_EVENT_NAME == "push" || $GITHUB_EVENT_NAME == "pull_request" ]]; then
             BRANCH_NAME=$(echo $GITHUB_REF | sed 's#.*/##')
             if [[ $BRANCH_NAME == "dev" || $BRANCH_NAME == "qa" || $BRANCH_NAME == "prod" ]]; then
               echo "$GITHUB_EVENT_NAME denied. You are not allowed to perform $GITHUB_EVENT_NAME to $BRANCH_NAME branch"
