@@ -1,0 +1,22 @@
+name: Branch Protection
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  branch_protection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+
+        run: |
+          if [[ $GITHUB_EVENT_NAME == "push" ]]; then
+            BRANCH_NAME=$(echo $GITHUB_REF | sed 's#.*/##')
+            if [[ $BRANCH_NAME == "dev" || $BRANCH_NAME == "qa" || $BRANCH_NAME == "prod" ]]; then
+              echo "Pull request denied. You can't create a pull request from $BRANCH_NAME branch"
+              exit 1
+            fi
+            echo "Push allowed. You can push to $BRANCH_NAME branch"
+          fi
